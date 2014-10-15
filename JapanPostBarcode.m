@@ -80,7 +80,7 @@ unsigned int japanpost_barDescriptor(unsigned int descriptor,unsigned int bar,un
 	unsigned int bar;
     unsigned int hexDigit;
     unsigned int descriptor;
-    unsigned int contentLength = [japanpostContents length];
+    unsigned int contentLength = (int)[japanpostContents length];
 
     if ([[self initiator] length] > index) {
 		bar = index % [[self initiator] length];
@@ -89,12 +89,12 @@ unsigned int japanpost_barDescriptor(unsigned int descriptor,unsigned int bar,un
 	}
 	else {
 		if (index >= (contentLength + 1) * (2 * numberLength) + [[self initiator] length]) {
-			bar = (index - [[self initiator] length] - (contentLength + 1) * (2 * numberLength)) % [[self terminator] length];
+			bar = (index - [[self initiator] length] - (contentLength + 1) * (2 * numberLength)) % (int)[[self terminator] length];
 			hexDigit = closeBracket;
 			descriptor = japanpost_barDescriptor(hexDigit,bar,closeBracketLength);
 		}
 		else {
-			unsigned int digit = (index - [[self initiator] length]) / (2 * numberLength); // 何文字目か //
+			unsigned int digit = (index - (int)[[self initiator] length]) / (int)(2 * numberLength); // 何文字目か //
 
 			bar = (index - [[self initiator] length]) % (2 * numberLength); // 1文字の中の何番目のバーになるか //
 			if (digit != contentLength) {
@@ -237,17 +237,17 @@ unsigned int japanpost_barDescriptor(unsigned int descriptor,unsigned int bar,un
 		}
 	}
 	if (maxLength > [tempStr length]) {
-		for (i = [tempStr length]; i < maxLength; i++)
+		for (i = (int)[tempStr length]; i < maxLength; i++)
 			[tempStr appendString:@"="]; // CC4 //
 	}
 	else {
 		if (maxLength < [tempStr length]) {
 			unsigned int validCount;
-			unsigned int tempL = [tempStr length];
+			unsigned int tempL = (int)[tempStr length];
 			NSString *tempCStr = [NSString stringWithString:tempContents];
 
 			[tempStr deleteCharactersInRange:NSMakeRange(maxLength,tempL - maxLength)];
-			tempL = [tempStr length];
+			tempL = (int)[tempStr length];
 			validCount = 0;
 			for (i = 0; i < [tempStr length]; i++) {
 				uChar = [tempStr characterAtIndex:i];

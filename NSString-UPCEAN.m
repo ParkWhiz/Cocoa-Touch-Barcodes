@@ -40,7 +40,7 @@
     NSMutableString	*ret = [NSMutableString stringWithString:@""];
     int			i;
 
-    for (i = strlen(tmp)-1; i >= 0; i--)
+    for (i = (int)strlen(tmp)-1; i >= 0; i--)
         [ret appendString:[NSString stringWithFormat:@"%c", tmp[i]]];
 
     return ret;
